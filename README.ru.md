@@ -2,6 +2,10 @@
 
 ![Винтажная мультяшная мастерская, где архитектор выстраивает процессы, инструменты, навыки, помощников, профили и координатора](assets/agent-architecture-builder-hero.png)
 
+[![skills.sh](https://skills.sh/b/kotlyar/agent-architecture-builder)](https://skills.sh/kotlyar/agent-architecture-builder)
+[![Проверка навыков](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml/badge.svg)](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml)
+[![Лицензия MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 [English version](README.md)
 
 Agent Architecture Builder — метод проектирования агентных систем на основе
@@ -143,7 +147,20 @@ Tailwind CSS и shadcn/ui.
 
 ## Установка
 
-Локально в проект Hermes:
+Интерактивная установка через общую для разных агентов команду:
+
+```bash
+npx skills add kotlyar/agent-architecture-builder
+```
+
+GitHub CLI версии 2.90.0 или новее позволяет найти и установить любую языковую
+версию:
+
+```bash
+gh skill install kotlyar/agent-architecture-builder
+```
+
+Ручная установка локально в проект Hermes:
 
 ```bash
 mkdir -p .hermes/skills

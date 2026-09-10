@@ -2,6 +2,10 @@
 
 ![A vintage cartoon workshop where an architect organizes processes, tools, skills, helpers, agent profiles, and a coordinator](assets/agent-architecture-builder-hero.png)
 
+[![skills.sh](https://skills.sh/b/kotlyar/agent-architecture-builder)](https://skills.sh/kotlyar/agent-architecture-builder)
+[![Validate skills](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml/badge.svg)](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 [Русская версия](README.ru.md)
 
 Agent Architecture Builder is a guided method for designing agent systems from
@@ -140,7 +144,19 @@ has its own templates, messages, and package-status vocabulary.
 
 ## Installation
 
-Project-local Hermes installation:
+Install interactively with the cross-agent `skills` command:
+
+```bash
+npx skills add kotlyar/agent-architecture-builder
+```
+
+GitHub CLI 2.90.0 or newer can discover and install either edition:
+
+```bash
+gh skill install kotlyar/agent-architecture-builder
+```
+
+Manual project-local Hermes installation:
 
 ```bash
 mkdir -p .hermes/skills
