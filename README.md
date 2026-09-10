@@ -1,5 +1,7 @@
 # Agent Architecture Builder
 
+![A vintage cartoon workshop where an architect organizes processes, tools, skills, helpers, agent profiles, and a coordinator](assets/agent-architecture-builder-hero.png)
+
 [Русская версия](README.ru.md)
 
 Agent Architecture Builder is a guided method for designing agent systems from
