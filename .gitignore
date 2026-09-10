@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+!.env.EXAMPLE
+*.pem
+*.key
+*.p12
+*.pfx
+state.db*
+dist/
+build/
