@@ -1,0 +1,26 @@
+{
+  "name": "agent-architecture-builder",
+  "owner": {
+    "name": "kotlyar"
+  },
+  "description": "Universal agent-architecture design skills in English and Russian.",
+  "version": "2.0.0",
+  "plugins": [
+    {
+      "name": "agent-architecture-builder",
+      "source": "./",
+      "description": "Designs justified, platform-neutral architectures for autonomous agents and multi-agent systems.",
+      "version": "2.0.0",
+      "author": {
+        "name": "kotlyar"
+      },
+      "category": "development",
+      "tags": [
+        "agents",
+        "architecture",
+        "skills",
+        "orchestration"
+      ]
+    }
+  ]
+}

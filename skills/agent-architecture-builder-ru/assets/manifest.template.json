@@ -1,0 +1,27 @@
+{
+  "schema_version": 2,
+  "system_slug": "example-agent-system",
+  "status": "черновик",
+  "target_platforms": [
+    {
+      "slug": "replace-with-platform",
+      "adapter": "platforms/replace-with-platform/README.md"
+    }
+  ],
+  "entrypoint": "START-HERE.md",
+  "implementation_instruction": "IMPLEMENTATION.md",
+  "critical_unknowns": [
+    "Замените пример на настоящее критическое неизвестное или удалите его"
+  ],
+  "components": [
+    {
+      "slug": "example-worker",
+      "kind": "persistent-agent",
+      "specification": "blueprint/components/example-worker.md"
+    }
+  ],
+  "expected_results": [
+    "implementation/",
+    "implementation/IMPLEMENTATION-RESULT.md"
+  ]
+}

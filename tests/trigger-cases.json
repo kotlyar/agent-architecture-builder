@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "positive": [
+    "Help me design an autonomous agent system for a recurring business process.",
+    "Should these responsibilities belong to one persistent agent or several?",
+    "What should be a workflow, tool, skill, subagent, or persistent agent?",
+    "Do I need an orchestrator or a deterministic router?",
+    "Design memory, permissions, storage, and a control interface for my agents.",
+    "Помоги спроектировать автономную систему для повторяющейся работы.",
+    "Эти обязанности лучше поручить одному постоянному агенту или нескольким?",
+    "Что здесь должно быть процессом, инструментом, навыком или отдельным агентом?",
+    "Нужен ли мне координатор агентов или достаточно фиксированных правил?",
+    "Спроектируй память, полномочия, хранилище и способ управления агентами."
+  ],
+  "negative": [
+    "Summarize this document.",
+    "Fix the failing unit test.",
+    "Draft a reply to this email.",
+    "Сделай краткое содержание документа.",
+    "Исправь падающий модульный тест.",
+    "Подготовь ответ на это письмо."
+  ]
+}

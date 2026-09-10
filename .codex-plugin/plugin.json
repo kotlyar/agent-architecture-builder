@@ -1,0 +1,37 @@
+{
+  "name": "agent-architecture-builder",
+  "version": "2.0.0",
+  "description": "Designs justified, platform-neutral architectures for autonomous agents and multi-agent systems.",
+  "author": {
+    "name": "kotlyar",
+    "url": "https://github.com/kotlyar"
+  },
+  "homepage": "https://github.com/kotlyar/agent-architecture-builder",
+  "repository": "https://github.com/kotlyar/agent-architecture-builder",
+  "license": "MIT",
+  "keywords": [
+    "agents",
+    "architecture",
+    "skills",
+    "orchestration",
+    "multi-agent"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent Architecture Builder",
+    "shortDescription": "Design justified agent systems",
+    "longDescription": "Interviews the user about goals and real work, separates workflows, tools, skills, subagents, persistent agents, and orchestration, then creates a platform-neutral implementation package.",
+    "developerName": "kotlyar",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/kotlyar/agent-architecture-builder",
+    "defaultPrompt": [
+      "Help me design the smallest justified agent system.",
+      "Should this work be a skill, agent, or workflow?",
+      "Review whether my multi-agent architecture needs an orchestrator."
+    ]
+  }
+}

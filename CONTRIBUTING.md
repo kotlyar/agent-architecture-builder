@@ -14,6 +14,6 @@ Before opening a pull request:
 5. Do not commit credentials, private state, logs, or real customer data.
 6. Run `python scripts/validate_repository.py`.
 
-For a new runtime adapter, document its profile or agent format, skill format,
+For a new runtime adapter, document its persistent-agent format, skill format,
 tool contract, state model, authority model, installation procedure, and a
 minimal validation scenario.

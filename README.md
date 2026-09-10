@@ -1,212 +1,172 @@
 # Agent Architecture Builder
 
-![A vintage cartoon workshop where an architect organizes processes, tools, skills, helpers, agent profiles, and a coordinator](assets/agent-architecture-builder-hero.png)
+![A vintage cartoon workshop where an architect organizes processes, tools, skills, helpers, agents, and a coordinator](assets/agent-architecture-builder-hero.png)
 
-[![skills.sh](https://skills.sh/b/kotlyar/agent-architecture-builder/hermes-agent-builder-en)](https://skills.sh/kotlyar/agent-architecture-builder/hermes-agent-builder-en)
+[![skills.sh](https://skills.sh/b/kotlyar/agent-architecture-builder/agent-architecture-builder)](https://skills.sh/kotlyar/agent-architecture-builder/agent-architecture-builder)
 [![Validate skills](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml/badge.svg)](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [Русская версия](README.ru.md)
 
-Agent Architecture Builder is a guided method for designing agent systems from
-real work rather than from job titles or fashionable components.
+A universal Agent Skill that interviews a person in plain language and designs
+the smallest justified autonomous-agent or multi-agent system.
 
-It interviews the user in plain language, reconstructs concrete work episodes,
-and decides—with explicit criteria—what should be a deterministic workflow, a
-tool, a reusable skill, a temporary subagent, a persistent agent profile, or an
-orchestrator. When the design is complete, it produces a self-contained kit that
-another coding agent can implement and verify.
+It determines what belongs in persistent instructions, a deterministic workflow,
+a tool, a skill, a temporary subagent, a persistent agent, or an orchestrator.
+It also determines whether the system needs durable memory, a database, a
+browser control panel, approvals, schedules, and external integrations.
 
-The decision framework is platform-independent. The current delivery templates
-and installers target Hermes and Codex; adapters for other agent runtimes can be
-added without changing the core classification model.
+The method is independent of profession, industry, and agent platform. Hermes,
+Codex, Claude Code, and other environments are implementation adapters, not
+inputs to the architecture decision.
 
 ## Why this exists
 
-Agent systems are often split too early:
+Job titles and product names are weak architecture boundaries. One named role
+may be one agent with several skills, several independently operated agents, or
+no agent at all. This skill first reconstructs real work and then applies
+explicit gates.
 
-- every job title becomes an agent;
-- every platform becomes a separate agent;
-- an orchestrator is added before there is anything meaningful to coordinate;
-- a web interface and database are selected before the operating need is known;
-- prompts are mistaken for ownership, state, and lifecycle.
-
-This project starts with the desired business or work outcome and asks what
-actually happens in a real episode. Architecture comes later.
+The decision order is:
 
 ```text
-desired change
-  → real work episodes
-  → bounded functions
-  → execution form
-  → state and authority boundaries
-  → profiles
-  → orchestration, only if justified
-  → implementation-ready kit
+deterministic workflow → tool → skill → subagent → persistent agent → orchestrator
 ```
 
-## Core decisions
-
-The builder uses the simplest sufficient form:
+A persistent agent requires all three ownership conditions and at least one
+isolation condition:
 
 ```text
-deterministic process → tool → skill → subagent → profile → orchestrator
+persistent_agent = P1 AND P2 AND P3 AND (I1 OR I2 OR I3 OR I4 OR I5 OR I6)
 ```
 
-A separate persistent profile requires all three profile conditions and at least
-one isolation condition:
+- `P1`: durable outcome ownership;
+- `P2`: persistent state ownership;
+- `P3`: independent lifecycle;
+- `I1–I6`: separate account, authority, data, operations, context, or durable
+  parallel load.
 
-```text
-profile = P1 AND P2 AND P3 AND (I1 OR I2 OR I3 OR I4 OR I5 OR I6)
-```
+An orchestrator requires at least two justified persistent agents, a shared
+outcome, a real integration duty, and contextual coordination that cannot be
+replaced by stable rules.
 
-- `P1`: owns an enduring outcome or class of decisions;
-- `P2`: owns persistent state, such as a backlog or decision history;
-- `P3`: has an independent start, pause, retry, recovery, and completion cycle;
-- `I1–I6`: account, authority, data, operations, context, or durable workload
-  requires isolation.
+## Interview
 
-A language-model orchestrator requires:
+The user does not need to know architecture terminology. The skill asks one
+primary question at a time, beginning with the desired change and a concrete
+work episode. When a broad question is difficult, it offers optional examples
+adapted to the user's own words and domain.
 
-```text
-model_orchestrator = O1 AND O2 AND O3 AND O4
-```
+The interview also asks:
 
-- `O1`: at least two independently justified profiles;
-- `O2`: one shared composite outcome;
-- `O3`: a real duty to allocate resources, manage dependencies, resolve
-  conflicts, or integrate decisions;
-- `O4`: coordination requires contextual judgment and cannot be reduced to fixed
-  rules.
+- how work starts and what a complete result looks like;
+- what must survive between runs and who owns it;
+- which actions need human approval;
+- how the person wants to supervise the system;
+- whether several people share state;
+- which implementation environments are required.
 
-If `O4` does not pass, use a deterministic router. Unknown conditions do not
-pass.
+## Result
 
-## Interview experience
+After the readiness gates pass, the skill creates a self-contained directory and
+`.zip` archive containing:
 
-The user does not need to know agent-system terminology. The skill asks one
-primary question per turn, using ordinary language:
-
-- What should become different?
-- Why is this important now?
-- What happened the last time this work was done?
-- What information was used, and what result was handed over?
-- What must be remembered next week?
-- Which exact actions require approval?
-- Where would it be easiest to supervise the work?
-
-When a broad question is difficult, the skill offers optional answer hints. For
-example, it can show concrete SEO tasks such as page audits, improvement briefs,
-search-demand research, content preparation, backlog ownership, and measurement.
-Selections are clues, not architectural decisions; they are verified against a
-real work episode.
-
-## Control interface and storage
-
-The builder explicitly asks how the system should be supervised: conversation,
-command line, browser panel, API, notifications, or a justified combination.
-
-A browser panel is recommended only when confirmed work requires a shared queue,
-structured approvals, dense status views, audit history, or access for
-nontechnical users. When needed, the default implementation stack uses free and
-open-source components: React, TypeScript, Vite, Tailwind CSS, and shadcn/ui.
-
-Storage is selected independently. The method chooses between files, SQLite,
-PostgreSQL, semantic retrieval, or no new database based on concurrency,
-transactions, retention, privacy, query needs, and operational cost.
-
-## Output
-
-After discovery and readiness gates pass, the skill creates both a directory and
-a `.zip` archive containing:
-
-- project-level `AGENTS.md`;
-- one `IMPLEMENTATION.md` instruction for Codex or Hermes;
 - requirements and evidence;
-- architecture and authority decisions;
-- acceptance criteria and end-to-end scenarios;
-- blueprints for profiles, skills, tools, workflows, storage, and interface;
-- a complete Hermes distribution scaffold for every selected profile;
-- a manifest and SHA-256 checksums.
+- a platform-neutral architecture;
+- a decision ledger with rejected alternatives;
+- state, authority, interface, and storage design;
+- one adapter for every selected environment;
+- component specifications;
+- acceptance criteria and scenarios;
+- one `IMPLEMENTATION.md` task for a receiving coding agent;
+- deterministic validation and checksums.
 
-The packager rejects drafts, critical unknowns, incomplete profile distributions,
-and files that look like credentials or private state.
+The packager accepts custom platforms. Every selected platform must provide a
+local adapter; platform names are not hard-coded.
 
 ## Included skills
 
-| Directory | Language | Skill name |
+| Path | Language | Skill name |
 |---|---|---|
-| `skills/hermes-agent-builder-en/` | English | `hermes-agent-builder-en` |
-| `skills/hermes-agent-builder/` | Russian | `hermes-agent-builder` |
+| `skills/agent-architecture-builder/` | English | `agent-architecture-builder` |
+| `skills/agent-architecture-builder-ru/` | Russian | `agent-architecture-builder-ru` |
 
-The two versions are self-contained. They use the same decision gates, but each
-has its own templates, messages, and package-status vocabulary.
+Install only the language edition you need to avoid duplicate capability
+descriptions in the agent's initial context.
 
 ## Installation
 
-Install interactively with the cross-agent `skills` command:
+Cross-agent installer:
 
 ```bash
 npx skills add kotlyar/agent-architecture-builder
 ```
 
-GitHub CLI 2.90.0 or newer can discover and install either edition:
+Codex, user-wide:
 
 ```bash
-gh skill install kotlyar/agent-architecture-builder
+mkdir -p ~/.agents/skills
+cp -R skills/agent-architecture-builder ~/.agents/skills/
 ```
 
-Manual project-local Hermes installation:
+For one Codex project, copy the folder into `.agents/skills/` instead.
+
+Claude Code, user-wide:
 
 ```bash
-mkdir -p .hermes/skills
-cp -R skills/hermes-agent-builder-en .hermes/skills/
+mkdir -p ~/.claude/skills
+cp -R skills/agent-architecture-builder ~/.claude/skills/
 ```
 
-For the Russian version, copy `skills/hermes-agent-builder` instead.
+For one Claude Code project, copy the folder into `.claude/skills/` instead.
 
-Codex installation:
-
-```bash
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R skills/hermes-agent-builder-en "${CODEX_HOME:-$HOME/.codex}/skills/"
-```
-
-Restart or begin a new agent session after installation so the skill can be
-discovered.
-
-## Example request
+Claude Code plugin installation from this repository:
 
 ```text
-Use $hermes-agent-builder-en to help me design an agent system for marketing.
-Start by interviewing me in plain language. Do not decide the number of agents
-until you understand the desired outcome and at least one real work episode.
+/plugin marketplace add kotlyar/agent-architecture-builder
+/plugin install agent-architecture-builder@agent-architecture-builder
 ```
 
-The likely first architecture for an early marketing operation is one marketer
-profile with SEO and paid-acquisition skills. Separate SEO and paid-acquisition
-profiles become justified only when each owns its own outcome, persistent state,
-and lifecycle. Yandex Direct and Google Ads normally begin as platform skills and
-tools, not as agents.
+Explicit invocation:
+
+- Codex standalone skill: `$agent-architecture-builder`;
+- Claude Code standalone skill: `/agent-architecture-builder`;
+- Claude Code plugin skill:
+  `/agent-architecture-builder:agent-architecture-builder`.
+
+Both products can also select the skill automatically from its description.
+
+## Supported adapters
+
+The skill currently includes reference adapters for:
+
+- Hermes;
+- Codex;
+- Claude Code.
+
+A new environment is added as another adapter under `references/platforms/`.
+The universal decision rules remain unchanged.
 
 ## Validation
-
-The repository uses only the Python standard library for its checks:
 
 ```bash
 python scripts/validate_repository.py
 ```
 
-The validation checks both language editions and runs the package-delivery tests.
+The checks validate both language editions, plugin manifests, platform adapters,
+frontmatter, the package schema, custom-platform support, secret rejection, and
+archive creation.
 
-## Current scope
+## Version 2
 
-The classification framework can be used for any agent system. The generated
-profile-distribution files and direct installation instructions currently target
-Hermes, while the project-level implementation handoff supports both Hermes and
-Codex. Supporting another runtime requires a delivery adapter, not a new decision
-framework.
+Version 2 replaces the former `hermes-agent-builder` and
+`hermes-agent-builder-en` names. Hermes remains supported as an adapter, while
+the core skill and generated package are platform-neutral.
 
-## License
+## License and security
 
-[MIT](LICENSE)
+MIT. Review generated files and requested permissions before installation. Do
+not put credentials, private memory, or production data in a skill or generated
+implementation kit. See [SECURITY.md](SECURITY.md).
+
+Release history: [CHANGELOG.md](CHANGELOG.md).

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Проектировщик архитектуры агентов"
+  short_description: "Проектирование обоснованной системы агентов"
+  default_prompt: "Используй $agent-architecture-builder-ru, проведи интервью и спроектируй минимальную обоснованную систему агентов."
+policy:
+  allow_implicit_invocation: true
