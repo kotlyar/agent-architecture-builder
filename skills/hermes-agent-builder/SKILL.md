@@ -3,9 +3,11 @@ name: hermes-agent-builder
 description: Проводит исследовательское интервью о цели и реальной работе, затем проектирует систему Hermes и по явным критериям определяет инструменты, процессы, навыки, подагентов, профили и оркестратор. Используй при создании, разделении или пересмотре агентной системы; не используй для обычного выполнения предметной задачи.
 license: MIT
 metadata:
-  hermes:
-    tags: [hermes, agents, architecture, skills, orchestration]
-    category: engineering
+  author: kotlyar
+  version: "1.0.1"
+  source: https://github.com/kotlyar/agent-architecture-builder
+  hermes-category: engineering
+  hermes-tags: hermes, agents, architecture, skills, orchestration
 ---
 # Проектировщик агентов Hermes
 
