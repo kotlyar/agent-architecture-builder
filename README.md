@@ -2,7 +2,7 @@
 
 ![A vintage cartoon workshop where an architect organizes processes, tools, skills, helpers, agent profiles, and a coordinator](assets/agent-architecture-builder-hero.png)
 
-[![skills.sh](https://skills.sh/b/kotlyar/agent-architecture-builder)](https://skills.sh/kotlyar/agent-architecture-builder)
+[![skills.sh](https://skills.sh/b/kotlyar/agent-architecture-builder/hermes-agent-builder-en)](https://skills.sh/kotlyar/agent-architecture-builder/hermes-agent-builder-en)
 [![Validate skills](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml/badge.svg)](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 

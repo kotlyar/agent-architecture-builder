@@ -2,7 +2,7 @@
 
 ![Винтажная мультяшная мастерская, где архитектор выстраивает процессы, инструменты, навыки, помощников, профили и координатора](assets/agent-architecture-builder-hero.png)
 
-[![skills.sh](https://skills.sh/b/kotlyar/agent-architecture-builder)](https://skills.sh/kotlyar/agent-architecture-builder)
+[![skills.sh](https://skills.sh/b/kotlyar/agent-architecture-builder/hermes-agent-builder)](https://skills.sh/kotlyar/agent-architecture-builder/hermes-agent-builder)
 [![Проверка навыков](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml/badge.svg)](https://github.com/kotlyar/agent-architecture-builder/actions/workflows/validate.yml)
 [![Лицензия MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
