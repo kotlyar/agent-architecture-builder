@@ -4,7 +4,7 @@ description: Designs or reviews autonomous-agent and multi-agent architectures t
 license: MIT
 metadata:
   author: kotlyar
-  version: "2.1.0"
+  version: "2.1.1"
   source: https://github.com/kotlyar/agent-architecture-builder
 ---
 # Agent Architecture Builder

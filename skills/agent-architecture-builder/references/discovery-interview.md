@@ -37,15 +37,18 @@ Creating an agent · stage 2 of 7
 ○ Next: work inventory
 ```
 
-Use seven user-facing stages:
+Use this single transition map for the seven user-facing stages:
 
-1. `Goal and success` — internal stages 0–2.
-2. `Real work` — internal stage 3.
-3. `Work inventory` — internal stage 4.
-4. `Autonomy and control` — internal stages 5–7.
-5. `Constraints and environment` — internal stage 8 and gates `D1–D4`.
-6. `Architecture` — function classification, agent boundaries, and orchestration.
-7. `Implementation kit` — adapters, acceptance, instructions, and archive.
+<!-- parity:progress.stage-map -->
+| Stage | Work covered | Complete when | Record produced | Load next |
+|---|---|---|---|---|
+| 1. Goal and success | Internal stages 0–2 | Gate `D1` passes | Desired change and success evidence | Continue here with stage 3 |
+| 2. Real work | Internal stage 3 | Gate `D2` passes for at least one episode | Work episode | Continue here with stage 4 |
+| 3. Work inventory | Internal stage 4 | Included functions have triggers, inputs, outputs, state, authority, and dependencies | Work map | Continue here with stages 5–7 |
+| 4. Autonomy and control | Internal stages 5–7 | Authority, persistent state, failure handling, and control needs are known; gate `D3` passes | Authority, state, and control requirements | Apply `control-interface-and-storage.md`, then continue here with stage 8 |
+| 5. Constraints and environment | Internal stage 8 | Gates `D1–D4` all pass | Readiness summary and first useful scope | Load `architecture-decisions.md` |
+| 6. Architecture | Function classification, agent boundaries, orchestration, interface, and storage decisions | Gates `R3–R5` in `delivery-package.md` pass | Platform-neutral architecture and decision record | Load only selected platform adapters, then `delivery-package.md` |
+| 7. Implementation kit | Adapters, acceptance, implementation instructions, and packaging | Gates `R6–R8` pass and the packager validates the kit | Implementation-kit directory and archive | Present the finished result |
 
 Count completed meaning-level stages, not messages or questions. Do not show a
 completion percentage or promise an exact number of remaining questions. If one

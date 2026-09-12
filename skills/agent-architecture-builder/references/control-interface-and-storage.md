@@ -11,7 +11,9 @@ operating environment.
 
 ### Conversation
 
-Prefer conversation when:
+<!-- parity:control.interface.conversation -->
+
+Prefer conversation when these conditions hold together:
 
 - one or a few users assign work irregularly;
 - natural-language clarification is valuable;
@@ -23,7 +25,9 @@ Do not use conversation history as the authoritative business database.
 
 ### Command line
 
-Prefer the command line when:
+<!-- parity:control.interface.command-line -->
+
+Prefer the command line when these conditions hold together:
 
 - the primary operator is technical;
 - tasks are scriptable and local;
@@ -31,6 +35,8 @@ Prefer the command line when:
 - no nontechnical multi-user workflow is required.
 
 ### Browser control panel
+
+<!-- parity:control.interface.browser -->
 
 Prefer a web interface when at least one of these is confirmed:
 
@@ -54,11 +60,16 @@ Minimum panel views, only when relevant:
 
 ### API and notifications
 
+<!-- parity:control.interface.api -->
+<!-- parity:control.interface.notifications -->
+
 Prefer an API when another system is the main caller. Prefer notifications when
 routine work can run elsewhere and the user only needs meaningful changes,
 failures, completion, or approval requests.
 
 ### Combination
+
+<!-- parity:control.interface.combination -->
 
 Use several interfaces only when each has a distinct job. Example: an API creates
 tasks, a browser panel handles approvals, and notifications surface failures.
@@ -73,7 +84,9 @@ truth.
 
 ### Files only
 
-Prefer Markdown, JSON, or YAML files when:
+<!-- parity:control.storage.files -->
+
+Prefer Markdown, JSON, or YAML files when these conditions hold together:
 
 - one process usually writes at a time;
 - the dataset is small and human review matters;
@@ -86,7 +99,9 @@ history where overwriting would destroy evidence.
 
 ### SQLite
 
-Prefer SQLite when:
+<!-- parity:control.storage.sqlite -->
+
+Prefer SQLite when these conditions hold together:
 
 - the system runs on one host;
 - structured queries, filters, or an event log are useful;
@@ -99,7 +114,9 @@ backup, and recovery before calling it production-ready.
 
 ### PostgreSQL
 
-Prefer PostgreSQL when:
+<!-- parity:control.storage.postgresql -->
+
+Prefer PostgreSQL when at least one of these requirements is confirmed:
 
 - multiple processes or users write concurrently;
 - transactions and stronger consistency matter;
@@ -112,6 +129,8 @@ The operational cost is justified only by confirmed requirements.
 
 ### Vector search
 
+<!-- parity:control.storage.vector-search -->
+
 Do not add a vector database by default. Use ordinary files or database fields
 when exact identifiers and structured filters solve retrieval. Add embeddings
 only after a realistic retrieval test shows a semantic-search need. Record the
@@ -119,11 +138,31 @@ embedding model, source chunks, deletion behavior, and reproducibility limits.
 
 ### No separate database
 
+<!-- parity:control.storage.no-new-database -->
+
 Choose no new database when authoritative state already exists in external
 systems and the agent only needs temporary working data. Store only pointers,
 evidence snapshots, and decisions needed for auditability.
 
-## 3. Authority and audit records
+## 3. Required properties of persistent state
+
+<!-- parity:control.persistent-state -->
+
+Regardless of storage technology, define:
+
+- owner, readers, and writers for every durable object;
+- one authoritative source for each value;
+- record schema and version;
+- creation, update, deletion, retention, and sensitivity rules;
+- stable links between task, run, approval, and external action;
+- concurrency, backup, recovery, and access requirements.
+
+A database does not repair ambiguous state ownership. Two components must not
+write the same record without an explicit coordination rule.
+
+## 4. Authority and external-action records
+
+<!-- parity:control.external-action-record -->
 
 For each externally mutating operation store:
 
@@ -139,7 +178,11 @@ For each externally mutating operation store:
 Never retry an action with an unknown result until state has been checked or the
 user has explicitly decided how to proceed.
 
-## 4. Required decision record
+<!-- parity:control.unknown-result -->
+
+## 5. Required decision record
+
+<!-- parity:control.decision-record -->
 
 Document:
 

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.1 — 2026-09-12
+
+- Added one transition map for all seven interview stages, including completion
+  conditions, produced records, and the next reference to load.
+- Aligned critical control, storage, external-action, and browser-interface
+  guarantees across the English and Russian editions.
+- Added structural parity markers and critical-contract checks that reject
+  missing sections or absent safety and decision guarantees in either language
+  edition.
+
 ## 2.1.0 — 2026-09-12
 
 - Added a visible seven-stage progress indicator before every primary interview

@@ -4,7 +4,7 @@ description: Проектирует и проверяет архитектуру
 license: MIT
 metadata:
   author: kotlyar
-  version: "2.1.0"
+  version: "2.1.1"
   source: https://github.com/kotlyar/agent-architecture-builder
 ---
 # Проектировщик архитектуры агентов

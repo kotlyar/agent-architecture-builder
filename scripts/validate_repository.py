@@ -11,6 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+RELEASE_VERSION = "2.1.1"
 EDITIONS = {
     "agent-architecture-builder": "agent-architecture-builder",
     "agent-architecture-builder-ru": "agent-architecture-builder-ru",
@@ -40,6 +41,113 @@ DOMAIN_TERMS = re.compile(
     r"(?i)\bseo\b|yandex|google ads|яндекс|реклам|маркетолог|marketing"
 )
 LEGACY_DIRECTORIES = ("hermes-agent-builder", "hermes-agent-builder-en")
+PARITY_REFERENCES = {
+    "references/discovery-interview.md": {
+        "progress.stage-map",
+    },
+    "references/control-interface-and-storage.md": {
+        "control.interface.conversation",
+        "control.interface.command-line",
+        "control.interface.browser",
+        "control.interface.api",
+        "control.interface.notifications",
+        "control.interface.combination",
+        "control.storage.files",
+        "control.storage.sqlite",
+        "control.storage.postgresql",
+        "control.storage.vector-search",
+        "control.storage.no-new-database",
+        "control.persistent-state",
+        "control.external-action-record",
+        "control.unknown-result",
+        "control.decision-record",
+    },
+    "references/web-interface-stack.md": {
+        "web.default-stack",
+        "web.optional-libraries",
+        "web.prototype",
+        "web.cost",
+        "web.required-views",
+        "web.required-states",
+        "web.safety",
+        "web.boundary",
+        "web.do-not-build",
+        "web.readiness",
+    },
+}
+PARITY_MARKER = re.compile(r"<!--\s*parity:([a-z0-9.-]+)\s*-->")
+CRITICAL_CONTRACT_TERMS = {
+    "references/discovery-interview.md": {
+        "English": (
+            "gate `d1` passes",
+            "gate `d2` passes",
+            "gate `d3` passes",
+            "gates `d1–d4` all pass",
+            "gates `r3–r5`",
+            "gates `r6–r8`",
+            "load `architecture-decisions.md`",
+            "then `delivery-package.md`",
+        ),
+        "Russian": (
+            "условие `d1`",
+            "условие `d2`",
+            "условие `d3`",
+            "условия `d1–d4`",
+            "условия `r3–r5`",
+            "условия `r6–r8`",
+            "загрузить `architecture-decisions.md`",
+            "затем `delivery-package.md`",
+        ),
+    },
+    "references/control-interface-and-storage.md": {
+        "English": (
+            "at least one of these requirements is confirmed",
+            "no separate database",
+            "exact target and account",
+            "idempotency key",
+            "result_unknown",
+            "never retry an action with an unknown result until state has been checked",
+            "one authoritative source",
+        ),
+        "Russian": (
+            "хотя бы одно обязательное условие",
+            "новая база данных не требуется",
+            "точную цель и учётную запись",
+            "ключ идемпотентности",
+            "result_unknown",
+            "не повторяй действие с неизвестным результатом, пока состояние не проверено",
+            "единственный источник истины",
+        ),
+    },
+    "references/web-interface-stack.md": {
+        "English": (
+            "current stable releases",
+            "no paid component library or mandatory commercial cloud service",
+            "approved for exact parameters",
+            "result unknown",
+            "cancelled or expired",
+            "exact target, account, action",
+            "editing an approved proposal invalidates that approval",
+            "server-side authorization must enforce permissions",
+            "secrets must never appear",
+            "make stale status visible",
+            "approval, cancellation, failure, unknown result, and recovery are tested separately",
+        ),
+        "Russian": (
+            "актуальные стабильные версии",
+            "без платной библиотеки компонентов и обязательной коммерческой облачной службы",
+            "подтверждено для точных параметров",
+            "результат неизвестен",
+            "отменено или срок подтверждения истёк",
+            "точную цель, учётную запись, действие",
+            "изменение подтверждённой версии отменяет прежнее подтверждение",
+            "проверяются права на сервере",
+            "секреты и ключи доступа не передаются",
+            "явно обозначать устаревшее состояние",
+            "подтверждение, отмена, ошибка, неизвестный результат и восстановление проверены отдельно",
+        ),
+    },
+}
 
 
 def fail(message: str) -> None:
@@ -47,7 +155,11 @@ def fail(message: str) -> None:
 
 
 def frontmatter_value(text: str, key: str) -> str | None:
-    match = re.search(rf"(?m)^{re.escape(key)}:\s*(.+?)\s*$", text)
+    parts = text.split("---", 2)
+    if len(parts) < 3:
+        return None
+    frontmatter = parts[1]
+    match = re.search(rf"(?m)^\s*{re.escape(key)}:\s*(.+?)\s*$", frontmatter)
     if not match:
         return None
     return match.group(1).strip().strip('"\'')
@@ -65,6 +177,8 @@ def validate_edition(directory: str, expected_name: str) -> None:
     description = frontmatter_value(skill_text, "description")
     if not description:
         fail(f"{directory}: SKILL.md description is missing")
+    if frontmatter_value(skill_text, "version") != RELEASE_VERSION:
+        fail(f"{directory}: SKILL.md must use version {RELEASE_VERSION}")
     if DOMAIN_TERMS.search(description) or "Hermes" in description:
         fail(f"{directory}: description must stay domain- and platform-neutral")
 
@@ -107,6 +221,52 @@ def validate_edition(directory: str, expected_name: str) -> None:
     )
 
 
+def validate_critical_contracts() -> None:
+    english = ROOT / "skills" / "agent-architecture-builder"
+    russian = ROOT / "skills" / "agent-architecture-builder-ru"
+    for relative, expected in PARITY_REFERENCES.items():
+        texts = {
+            "English": (english / relative).read_text(encoding="utf-8"),
+            "Russian": (russian / relative).read_text(encoding="utf-8"),
+        }
+        for label, content in texts.items():
+            actual = set(PARITY_MARKER.findall(content))
+            if actual != expected:
+                missing = sorted(expected - actual)
+                unexpected = sorted(actual - expected)
+                fail(
+                    f"{label} {relative}: structural parity markers differ; "
+                    f"missing={missing}, unexpected={unexpected}"
+                )
+
+    roots = {"English": english, "Russian": russian}
+    for relative, editions in CRITICAL_CONTRACT_TERMS.items():
+        for label, required_terms in editions.items():
+            path = roots[label] / relative
+            content = " ".join(path.read_text(encoding="utf-8").lower().split())
+            missing = [term for term in required_terms if term not in content]
+            if missing:
+                fail(
+                    f"{label} {relative}: critical contract terms are missing: "
+                    f"{missing}"
+                )
+
+    logical_criteria = {
+        "English": (
+            english / "references/control-interface-and-storage.md",
+            "these conditions hold together",
+        ),
+        "Russian": (
+            russian / "references/control-interface-and-storage.md",
+            "одновременно выполняются условия",
+        ),
+    }
+    for label, (path, phrase) in logical_criteria.items():
+        content = " ".join(path.read_text(encoding="utf-8").lower().split())
+        if content.count(phrase) < 4:
+            fail(f"{label} control criteria must state four all-condition choices")
+
+
 def validate_plugin_manifests() -> None:
     codex = json.loads((ROOT / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))
     claude = json.loads((ROOT / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))
@@ -116,8 +276,10 @@ def validate_plugin_manifests() -> None:
     for label, manifest in (("Codex", codex), ("Claude", claude)):
         if manifest.get("name") != "agent-architecture-builder":
             fail(f"{label} plugin has an unexpected name")
-        if manifest.get("version") != "2.1.0":
-            fail(f"{label} plugin must use version 2.1.0")
+        if manifest.get("version") != RELEASE_VERSION:
+            fail(f"{label} plugin must use version {RELEASE_VERSION}")
+    if marketplace.get("version") != RELEASE_VERSION:
+        fail(f"Claude marketplace must use version {RELEASE_VERSION}")
     plugins = marketplace.get("plugins")
     if not isinstance(plugins, list) or len(plugins) != 1:
         fail("Claude marketplace must contain exactly one plugin")
@@ -125,6 +287,8 @@ def validate_plugin_manifests() -> None:
         fail("Claude marketplace plugin has an unexpected name")
     if plugins[0].get("source") != "./":
         fail("Claude marketplace plugin source must be ./")
+    if plugins[0].get("version") != RELEASE_VERSION:
+        fail(f"Claude marketplace plugin must use version {RELEASE_VERSION}")
 
 
 def validate_trigger_cases() -> None:
@@ -146,6 +310,7 @@ def main() -> int:
                 fail(f"legacy skill directory still exists: skills/{legacy}")
         for directory, expected_name in EDITIONS.items():
             validate_edition(directory, expected_name)
+        validate_critical_contracts()
         validate_plugin_manifests()
         validate_trigger_cases()
     except (RuntimeError, OSError, json.JSONDecodeError, subprocess.CalledProcessError) as exc:
