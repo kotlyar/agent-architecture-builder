@@ -4,13 +4,14 @@
     "name": "kotlyar"
   },
   "description": "Universal agent-architecture design skills in English and Russian.",
-  "version": "2.1.1",
+  "version": "2.3.0",
   "plugins": [
     {
       "name": "agent-architecture-builder",
+      "displayName": "Agent Architecture Builder",
       "source": "./",
-      "description": "Designs justified, platform-neutral architectures for autonomous agents and multi-agent systems.",
-      "version": "2.1.1",
+      "description": "Design and review justified agent systems in English or Russian, discover reusable skills, and prepare an implementation-ready kit.",
+      "version": "2.3.0",
       "author": {
         "name": "kotlyar"
       },

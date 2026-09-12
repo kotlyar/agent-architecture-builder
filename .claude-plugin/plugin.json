@@ -1,7 +1,8 @@
 {
   "name": "agent-architecture-builder",
-  "description": "Designs justified, platform-neutral architectures for autonomous agents and multi-agent systems.",
-  "version": "2.1.1",
+  "displayName": "Agent Architecture Builder",
+  "description": "Design and review justified agent systems in English or Russian, discover reusable skills, and prepare an implementation-ready kit.",
+  "version": "2.3.0",
   "author": {
     "name": "kotlyar"
   },

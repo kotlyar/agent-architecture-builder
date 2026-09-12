@@ -1,6 +1,6 @@
 interface:
   display_name: "Agent Architecture Builder"
-  short_description: "Design a justified agent architecture"
-  default_prompt: "Use $agent-architecture-builder to interview me and design the smallest justified agent system."
+  short_description: "Design and review justified agent systems"
+  default_prompt: "Use $agent-architecture-builder to design or review the smallest justified agent system, discover suitable existing skills, and prepare an implementation kit."
 policy:
   allow_implicit_invocation: true

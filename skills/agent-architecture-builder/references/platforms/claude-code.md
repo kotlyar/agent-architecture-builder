@@ -16,6 +16,19 @@ after the platform-neutral architecture is settled.
   hooks, or MCP configuration at the plugin root.
 - External systems: MCP servers and tools, with explicit permission boundaries.
 
+The package must map every neutral component to an exact Claude Code file or
+service, dependencies, activation method, authority boundary, and test. Every
+manifest skill gets its own `SKILL.md` directory, and every tool operation keeps
+a separate contract even when one MCP server implements several operations.
+
+The generated `CLAUDE.md` must include a "Work readiness" section. It lists the
+dependencies from `requirements/startup-readiness.json`, configuration names and
+safe secret references, the check command, and the rule that domain work is
+forbidden until checks pass; only setup guidance and safe diagnostics are
+allowed. Never put password or token values in `CLAUDE.md`. The check must verify
+the intended account, scope, and minimum permissions rather than only the
+presence of an environment variable.
+
 A Claude Code subagent definition provides a specialized isolated context. It
 does not automatically provide a business-owned queue, trigger, durable state,
 or recovery process. If the neutral design requires a persistent agent,

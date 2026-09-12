@@ -15,6 +15,19 @@ the platform-neutral architecture is settled.
 - External systems: MCP configuration and tools, with read/write permissions
   separated when their risks differ.
 
+The package must map every neutral component to an exact Codex file or service,
+dependencies, activation method, authority boundary, and test. Every manifest
+skill gets its own `SKILL.md` directory, and every tool operation retains a
+separate testable contract even when one MCP server implements several of them.
+
+The generated `AGENTS.md` must include a "Work readiness" section. It lists the
+dependencies from `requirements/startup-readiness.json`, configuration names and
+safe secret references, the check command, and the rule that domain work is
+forbidden until checks pass; only setup guidance and safe diagnostics are
+allowed. Never put password or token values in `AGENTS.md`. The check must verify
+the intended account, scope, and minimum permissions rather than only the
+presence of an environment variable.
+
 A Codex custom-agent file defines a specialized spawned session; it does not by
 itself create a durable queue, schedule, or state owner. When the neutral design
 requires a persistent agent, also implement its trigger, state store, lifecycle,

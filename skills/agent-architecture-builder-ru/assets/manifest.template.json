@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 4,
   "system_slug": "example-agent-system",
   "status": "черновик",
   "target_platforms": [
@@ -10,6 +10,8 @@
   ],
   "entrypoint": "START-HERE.md",
   "implementation_instruction": "IMPLEMENTATION.md",
+  "skill_reuse": "reuse/skills.json",
+  "startup_readiness": "requirements/startup-readiness.json",
   "critical_unknowns": [
     "Замените пример на настоящее критическое неизвестное или удалите его"
   ],
@@ -17,7 +19,8 @@
     {
       "slug": "example-worker",
       "kind": "persistent-agent",
-      "specification": "blueprint/components/example-worker.md"
+      "specification": "blueprint/components/example-worker.md",
+      "contract": "blueprint/contracts/example-worker.json"
     }
   ],
   "expected_results": [

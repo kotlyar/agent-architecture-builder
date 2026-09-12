@@ -1,0 +1,54 @@
+{
+  "contract_schema_version": 2,
+  "slug": "example-worker",
+  "kind": "persistent-agent",
+  "purpose": "Replace with one observable component outcome",
+  "trigger": "Replace with the starting event or condition",
+  "inputs": [
+    {
+      "name": "request",
+      "required": true,
+      "description": "Replace with the input description"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "result",
+      "description": "Replace with a verifiable result"
+    }
+  ],
+  "state": {
+    "reads": [],
+    "writes": []
+  },
+  "authority": {
+    "allowed": [],
+    "forbidden": [],
+    "approval_required": []
+  },
+  "runtime_dependencies": [
+    "example-integration"
+  ],
+  "blocked_behavior": "Stop dependent work, report missing setup, and allow only safe diagnostics",
+  "failures": [
+    {
+      "condition": "Replace with an observable failure",
+      "response": "Replace with the safe response"
+    }
+  ],
+  "acceptance": [
+    "Replace with an observable check"
+  ],
+  "kind_contract": {
+    "owned_outcome": "Replace with the durable owned outcome",
+    "lifecycle": {
+      "start": "Replace with the starting condition",
+      "run": "Replace with the operating rule",
+      "stop": "Replace with the stopping condition"
+    },
+    "skills": [],
+    "tools": [],
+    "handoffs": [],
+    "recovery": "Replace with the recovery method"
+  }
+}

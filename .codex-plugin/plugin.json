@@ -1,6 +1,6 @@
 {
   "name": "agent-architecture-builder",
-  "version": "2.1.1",
+  "version": "2.3.0",
   "description": "Designs justified, platform-neutral architectures for autonomous agents and multi-agent systems.",
   "author": {
     "name": "kotlyar",
@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "Agent Architecture Builder",
     "shortDescription": "Design justified agent systems",
-    "longDescription": "Interviews the user about goals and real work, separates workflows, tools, skills, subagents, persistent agents, and orchestration, then creates a platform-neutral implementation package.",
+    "longDescription": "Interviews the user about goals and real work, separates workflows, tools, skills, subagents, persistent agents, and orchestration, searches for reusable skills, then creates a platform-neutral implementation package with testable component contracts.",
     "developerName": "kotlyar",
     "category": "Productivity",
     "capabilities": [

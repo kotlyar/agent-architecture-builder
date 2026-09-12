@@ -100,6 +100,24 @@ be approved, and whether mobile access matters.
 After the selection, establish owner, retention, search, privacy, concurrent
 editing, and audit needs. Do not choose a database by counting selected items.
 
+## What must be configured before work
+
+> What would prevent the assistant from producing its first useful result? You
+> may choose several items or write your own.
+
+1. Access to the working site, folder, or source files.
+2. A connection to the service that holds source data.
+3. An account with the intended scope and read permissions.
+4. A safely stored access key or token.
+5. The project, site, account, or workspace identifier.
+6. A human decision that cannot be derived automatically.
+7. Nothing: message-provided data is sufficient for the first version.
+8. I am not sure yet.
+
+After the selection, establish the setup owner, safe value location, and an
+observable check. Never ask for a password or token in chat. When required setup
+is absent, design setup mode rather than domain work based on guesses.
+
 ## First complete result
 
 When the user names many kinds of work, generate three to five candidate first

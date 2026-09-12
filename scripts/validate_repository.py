@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RELEASE_VERSION = "2.1.1"
+RELEASE_VERSION = "2.3.0"
 EDITIONS = {
     "agent-architecture-builder": "agent-architecture-builder",
     "agent-architecture-builder-ru": "agent-architecture-builder-ru",
@@ -24,6 +24,10 @@ REQUIRED = (
     "references/delivery-package.md",
     "references/discovery-interview.md",
     "references/question-hints.md",
+    "references/agent-building-resources.md",
+    "references/skill-discovery-and-reuse.md",
+    "references/startup-readiness.md",
+    "references/component-contracts.md",
     "references/web-interface-stack.md",
     "references/platforms/codex.md",
     "references/platforms/claude-code.md",
@@ -31,6 +35,9 @@ REQUIRED = (
     "assets/IMPLEMENTER-RULES.template.md",
     "assets/IMPLEMENTATION.template.md",
     "assets/manifest.template.json",
+    "assets/component-contract.template.json",
+    "assets/skill-reuse.template.json",
+    "assets/startup-readiness.template.json",
     "assets/START-HERE.template.md",
     "scripts/package_delivery.py",
     "scripts/test_package_delivery.py",
@@ -42,6 +49,17 @@ DOMAIN_TERMS = re.compile(
 )
 LEGACY_DIRECTORIES = ("hermes-agent-builder", "hermes-agent-builder-en")
 PARITY_REFERENCES = {
+    "references/skill-discovery-and-reuse.md": {
+        "reuse.need",
+        "reuse.sources",
+        "reuse.compare",
+        "reuse.record",
+    },
+    "references/component-contracts.md": {
+        "contract.common",
+        "contract.by-kind",
+        "contract.adapter",
+    },
     "references/discovery-interview.md": {
         "progress.stage-map",
     },
@@ -74,6 +92,13 @@ PARITY_REFERENCES = {
         "web.do-not-build",
         "web.readiness",
     },
+    "references/startup-readiness.md": {
+        "startup.two-states",
+        "startup.contract",
+        "startup.gate",
+        "startup.persistent",
+        "startup.acceptance",
+    },
 }
 PARITY_MARKER = re.compile(r"<!--\s*parity:([a-z0-9.-]+)\s*-->")
 CRITICAL_CONTRACT_TERMS = {
@@ -84,7 +109,7 @@ CRITICAL_CONTRACT_TERMS = {
             "gate `d3` passes",
             "gates `d1–d4` all pass",
             "gates `r3–r5`",
-            "gates `r6–r8`",
+            "gates `r6–r10`",
             "load `architecture-decisions.md`",
             "then `delivery-package.md`",
         ),
@@ -94,7 +119,7 @@ CRITICAL_CONTRACT_TERMS = {
             "условие `d3`",
             "условия `d1–d4`",
             "условия `r3–r5`",
-            "условия `r6–r8`",
+            "условия `r6–r10`",
             "загрузить `architecture-decisions.md`",
             "затем `delivery-package.md`",
         ),
@@ -147,6 +172,22 @@ CRITICAL_CONTRACT_TERMS = {
             "подтверждение, отмена, ошибка, неизвестный результат и восстановление проверены отдельно",
         ),
     },
+    "references/startup-readiness.md": {
+        "English": (
+            "remains `blocked` until its runtime dependencies pass their checks",
+            "never ask a person to paste a secret value into chat",
+            "permits only setup guidance and safe diagnostics",
+            "for codex this is a section in `agents.md`",
+            "not because the agent claims it is ready",
+        ),
+        "Russian": (
+            "остаётся в состоянии `blocked`",
+            "не проси человека вставлять значение секрета в чат",
+            "разрешает только объяснение настройки и безопасную диагностику",
+            "для codex это раздел в `agents.md`",
+            "не по тому, что агент сообщил о готовности словами",
+        ),
+    },
 }
 
 
@@ -185,8 +226,8 @@ def validate_edition(directory: str, expected_name: str) -> None:
     manifest = json.loads(
         (root / "assets/manifest.template.json").read_text(encoding="utf-8")
     )
-    if manifest.get("schema_version") != 2:
-        fail(f"{directory}: manifest template must use schema_version 2")
+    if manifest.get("schema_version") != 4:
+        fail(f"{directory}: manifest template must use schema_version 4")
     expected_status = "черновик" if directory.endswith("-ru") else "draft"
     if manifest.get("status") != expected_status:
         fail(f"{directory}: unexpected manifest template status")
@@ -194,12 +235,54 @@ def validate_edition(directory: str, expected_name: str) -> None:
         fail(f"{directory}: target_platforms must be a list")
     if not isinstance(manifest.get("components"), list):
         fail(f"{directory}: components must be a list")
+    if manifest.get("skill_reuse") != "reuse/skills.json":
+        fail(f"{directory}: manifest template must reference reuse/skills.json")
+    if manifest.get("startup_readiness") != "requirements/startup-readiness.json":
+        fail(
+            f"{directory}: manifest template must reference "
+            "requirements/startup-readiness.json"
+        )
+    for component in manifest["components"]:
+        if not component.get("contract"):
+            fail(f"{directory}: every manifest component needs a contract")
+
+    required_sections = (
+        "## Select a route" if not directory.endswith("-ru") else "## Выбор маршрута",
+        "## Work map" if not directory.endswith("-ru") else "## Карта работы",
+    )
+    for section in required_sections:
+        if section not in skill_text:
+            fail(f"{directory}: structured skill section is missing: {section}")
 
     openai_text = (root / "agents/openai.yaml").read_text(encoding="utf-8")
+    for field in ("display_name", "short_description", "default_prompt"):
+        if not re.search(rf"(?m)^\s*{field}:\s*\".+\"\s*$", openai_text):
+            fail(f"{directory}: agents/openai.yaml must define {field}")
     if f"${expected_name}" not in openai_text:
         fail(f"{directory}: agents/openai.yaml must mention ${expected_name}")
     if not re.search(r"(?m)^\s*allow_implicit_invocation:\s*true\s*$", openai_text):
         fail(f"{directory}: implicit invocation must be enabled")
+
+    if not re.search(r'(?m)^argument-hint:\s*".+"\s*$', skill_text):
+        fail(f"{directory}: Claude Code argument-hint must be defined")
+
+    resource_text = (root / "references/agent-building-resources.md").read_text(
+        encoding="utf-8"
+    )
+    agent_resources = (
+        "https://www.anthropic.com/engineering/building-effective-agents",
+        "https://www.anthropic.com/research/multiagent-systems",
+        "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills",
+        "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+        "https://www.anthropic.com/engineering/writing-tools-for-agents",
+        "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+        "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+        "https://github.com/karpathy/autoresearch",
+        "https://ouroboros-agent.ai/paper/",
+    )
+    for resource in agent_resources:
+        if resource not in resource_text:
+            fail(f"{directory}: missing agent-building resource: {resource}")
 
     for path in root.rglob("*"):
         if not path.is_file():
@@ -278,6 +361,8 @@ def validate_plugin_manifests() -> None:
             fail(f"{label} plugin has an unexpected name")
         if manifest.get("version") != RELEASE_VERSION:
             fail(f"{label} plugin must use version {RELEASE_VERSION}")
+    if claude.get("displayName") != "Agent Architecture Builder":
+        fail("Claude plugin must define its human-readable displayName")
     if marketplace.get("version") != RELEASE_VERSION:
         fail(f"Claude marketplace must use version {RELEASE_VERSION}")
     plugins = marketplace.get("plugins")
@@ -289,6 +374,8 @@ def validate_plugin_manifests() -> None:
         fail("Claude marketplace plugin source must be ./")
     if plugins[0].get("version") != RELEASE_VERSION:
         fail(f"Claude marketplace plugin must use version {RELEASE_VERSION}")
+    if plugins[0].get("displayName") != "Agent Architecture Builder":
+        fail("Claude marketplace plugin must define its displayName")
 
 
 def validate_trigger_cases() -> None:

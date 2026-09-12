@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "search_status": "completed",
+  "sources_checked": [
+    {"kind": "installed", "location": "Replace with a path or inventory", "status": "checked"},
+    {"kind": "platform", "location": "Replace with the environment", "status": "unavailable"},
+    {"kind": "public-catalog", "location": "https://skills.sh", "status": "checked"},
+    {"kind": "repository", "location": "Replace with the source", "status": "checked"}
+  ],
+  "queries": ["replace with a query", "replace with a synonym"],
+  "candidates": [],
+  "decisions": [
+    {
+      "component_slug": "example-skill",
+      "decision": "create-new",
+      "candidate_id": null,
+      "rationale": "Replace with decision evidence"
+    }
+  ]
+}

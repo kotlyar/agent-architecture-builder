@@ -20,6 +20,20 @@ The method is independent of profession, industry, and agent platform. Hermes,
 Codex, Claude Code, and other environments are implementation adapters, not
 inputs to the architecture decision.
 
+## What the skill does
+
+| Stage | What happens | Result |
+|---|---|---|
+| Discovery | A plain-language interview covers the outcome, real work, autonomy, and control | Verified requirements and unknowns |
+| Decomposition | Work is divided into functions | Input, result, state, authority, and risk for every function |
+| Architecture | Each function is tested as a workflow, tool, skill, subagent, or persistent agent | The smallest justified system and an orchestrator decision |
+| Reuse | Existing skills are discovered and evaluated | Reuse, configure, adapt, fork, or create-new decision |
+| Adaptation | Neutral components are mapped to each selected environment | Exact files, services, activation, authority, and tests |
+| Handoff | Separate component contracts and one implementation task are produced | A validated directory and archive for a receiving agent |
+
+The skill can also audit an existing architecture or kit. An audit does not by
+itself change the system or run discovered materials.
+
 ## Why this exists
 
 Job titles and product names are weak architecture boundaries. One named role
@@ -96,10 +110,18 @@ After the readiness gates pass, the skill creates a self-contained directory and
 - a decision ledger with rejected alternatives;
 - state, authority, interface, and storage design;
 - one adapter for every selected environment;
-- component specifications;
+- a narrative specification and machine-readable contract for every component;
+- a discovery record with reusable-skill candidates and reuse decisions;
+- a startup-readiness contract covering required integrations, data,
+  configuration, minimum permissions, setup ownership, safe secret references,
+  and factual checks;
 - acceptance criteria and scenarios;
 - one `IMPLEMENTATION.md` task for a receiving coding agent;
 - deterministic validation and checksums.
+
+This is not the finished domain agent. It is an exact implementation contract
+for Codex, Hermes, or another receiving agent, which creates the actual
+`SKILL.md` files, tools, profiles, storage, and interfaces and passes acceptance.
 
 The packager accepts custom platforms. Every selected platform must provide a
 local adapter; platform names are not hard-coded.
@@ -156,6 +178,12 @@ Explicit invocation:
 
 Both products can also select the skill automatically from its description.
 
+Claude Code uses the `name`, `description`, and `argument-hint` fields in each
+`SKILL.md` for its skill listing and command autocomplete. The plugin itself is
+shown as **Agent Architecture Builder** from `.claude-plugin/plugin.json`.
+Claude Code has no separate documented `default_prompt` field: invoking the
+skill loads its instructions and appends any text supplied after the command.
+
 ## Supported adapters
 
 The skill currently includes reference adapters for:
@@ -174,14 +202,24 @@ python scripts/validate_repository.py
 ```
 
 The checks validate both language editions, plugin manifests, platform adapters,
-frontmatter, the package schema, custom-platform support, secret rejection, and
-archive creation.
+frontmatter, the package schema, separate skill and tool contracts, reuse
+decisions, startup dependency matching, safe secret references, secret
+rejection, and archive creation.
 
 ## Version 2
 
 Version 2 replaces the former `hermes-agent-builder` and
 `hermes-agent-builder-en` names. Hermes remains supported as an adapter, while
 the core skill and generated package are platform-neutral.
+
+Starting with version 2.2, kit schema 3 makes every component one implementable
+unit and requires existing-skill discovery before a create-new decision.
+
+Version 2.3 uses kit schema 4 and component-contract schema 2. A deployed agent
+must verify its required integrations, account, scope, and permissions before
+domain work. Until then, only setup guidance and safe diagnostics are allowed.
+`AGENTS.md`, `SOUL.md`, `CLAUDE.md`, and the kit contain configuration names and
+safe secret references, never secret values.
 
 ## License and security
 

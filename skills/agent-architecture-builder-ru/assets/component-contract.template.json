@@ -1,0 +1,54 @@
+{
+  "contract_schema_version": 2,
+  "slug": "example-worker",
+  "kind": "persistent-agent",
+  "purpose": "Замените на один наблюдаемый результат компонента",
+  "trigger": "Замените на событие или условие запуска",
+  "inputs": [
+    {
+      "name": "request",
+      "required": true,
+      "description": "Замените на описание входа"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "result",
+      "description": "Замените на проверяемый результат"
+    }
+  ],
+  "state": {
+    "reads": [],
+    "writes": []
+  },
+  "authority": {
+    "allowed": [],
+    "forbidden": [],
+    "approval_required": []
+  },
+  "runtime_dependencies": [
+    "example-integration"
+  ],
+  "blocked_behavior": "Остановить зависимую работу, показать отсутствующую настройку и разрешить только безопасную диагностику",
+  "failures": [
+    {
+      "condition": "Замените на наблюдаемый сбой",
+      "response": "Замените на безопасную реакцию"
+    }
+  ],
+  "acceptance": [
+    "Замените на наблюдаемую проверку"
+  ],
+  "kind_contract": {
+    "owned_outcome": "Замените на долгоживущий результат",
+    "lifecycle": {
+      "start": "Замените на условие запуска",
+      "run": "Замените на правило работы",
+      "stop": "Замените на условие остановки"
+    },
+    "skills": [],
+    "tools": [],
+    "handoffs": [],
+    "recovery": "Замените на способ восстановления"
+  }
+}

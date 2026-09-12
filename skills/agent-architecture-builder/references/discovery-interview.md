@@ -46,9 +46,9 @@ Use this single transition map for the seven user-facing stages:
 | 2. Real work | Internal stage 3 | Gate `D2` passes for at least one episode | Work episode | Continue here with stage 4 |
 | 3. Work inventory | Internal stage 4 | Included functions have triggers, inputs, outputs, state, authority, and dependencies | Work map | Continue here with stages 5–7 |
 | 4. Autonomy and control | Internal stages 5–7 | Authority, persistent state, failure handling, and control needs are known; gate `D3` passes | Authority, state, and control requirements | Apply `control-interface-and-storage.md`, then continue here with stage 8 |
-| 5. Constraints and environment | Internal stage 8 | Gates `D1–D4` all pass | Readiness summary and first useful scope | Load `architecture-decisions.md` |
+| 5. Constraints and environment | Internal stage 8 | Gates `D1–D4` all pass; required startup dependencies and their setup owners are known | Readiness summary and first useful scope | Load `architecture-decisions.md` |
 | 6. Architecture | Function classification, agent boundaries, orchestration, interface, and storage decisions | Gates `R3–R5` in `delivery-package.md` pass | Platform-neutral architecture and decision record | Load only selected platform adapters, then `delivery-package.md` |
-| 7. Implementation kit | Adapters, acceptance, implementation instructions, and packaging | Gates `R6–R8` pass and the packager validates the kit | Implementation-kit directory and archive | Present the finished result |
+| 7. Implementation kit | Adapters, acceptance, implementation instructions, and packaging | Gates `R6–R10` pass and the packager validates the kit | Implementation-kit directory and archive | Present the finished result |
 
 Count completed meaning-level stages, not messages or questions. Do not show a
 completion percentage or promise an exact number of remaining questions. If one
@@ -212,7 +212,13 @@ Apply `control-interface-and-storage.md` after collecting the answers.
 - What must never be invented?
 - What quality check is required before accepting a result?
 - What are the time, cost, legal, privacy, and security limits?
+- What must exist before the system can produce its first useful result at all?
 - Which services and accounts already exist?
+- Which connections, source data, configuration values, and permissions must be
+  set before work begins?
+- Who sets them up, and where will passwords and tokens be stored safely?
+- How can the system verify the intended account, scope, and minimum permissions
+  without making an external change?
 - Which agent environments should run the result?
 - Who will install and maintain it?
 - What should the first useful version accomplish from start to finish?
@@ -235,8 +241,9 @@ condition.
 ### `D3 Boundary clarity`
 
 Pass when critical authority, accounts, external effects, approvals, privacy,
-storage, control interface, and failure handling are known. An explicit `none`
-is valid; an unexamined unknown is not.
+storage, control interface, required startup dependencies, safe configuration
+locations, and failure handling are known. An explicit `none` is valid; an
+unexamined unknown is not.
 
 ### `D4 First useful scope`
 
@@ -259,6 +266,7 @@ Before classifying components, show a concise summary:
 | Persistent state |  |  |  |
 | Control interface |  |  |  |
 | Constraints |  |  |  |
+| Startup readiness |  |  |  |
 | Target environments |  |  |  |
 
 If a gate fails, ask the single question with the greatest architectural impact.
@@ -318,6 +326,15 @@ Save the result using this structure:
 - Deferred:
 - Target environments:
 - Decision owner:
+
+## Startup readiness
+- Required integrations and data:
+- Configuration references:
+- Secret references without values:
+- Minimum permissions:
+- Setup owners and actions:
+- Readiness checks:
+- Behavior while blocked:
 
 ## Evidence
 - Facts:

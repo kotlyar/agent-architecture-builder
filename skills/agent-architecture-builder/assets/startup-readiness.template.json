@@ -1,0 +1,26 @@
+{
+  "readiness_schema_version": 1,
+  "default_state": "blocked",
+  "check_command": "bin/check-readiness --json",
+  "ready_condition": "Every dependency for the requested operating mode passes its readiness check",
+  "allowed_while_blocked": [
+    "Explain missing setup",
+    "Show the safe configuration location without a secret value",
+    "Run non-mutating safe diagnostics"
+  ],
+  "dependencies": [
+    {
+      "slug": "example-integration",
+      "kind": "integration",
+      "required_for": ["example-worker"],
+      "purpose": "Replace with the purpose of the required connection",
+      "configuration_refs": ["config:service.account_id"],
+      "secret_refs": ["env:EXAMPLE_API_TOKEN"],
+      "minimum_permissions": ["read"],
+      "setup_owner": "Replace with the setup owner",
+      "setup_instruction": "Replace with the exact action without a secret value",
+      "readiness_check": "Replace with a safe account, scope, and permission check",
+      "failure_behavior": "block-dependent-work"
+    }
+  ]
+}

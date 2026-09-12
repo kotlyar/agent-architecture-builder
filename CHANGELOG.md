@@ -1,5 +1,43 @@
 # Changelog
 
+## 2.3.0 — 2026-09-12
+
+- Added an explicit startup-readiness contract for required integrations, data,
+  configuration, permissions, setup ownership, and safe secret references.
+- Upgraded implementation kits to schema 4 and component contracts to schema 2;
+  the packager now rejects missing, unsafe, or mismatched runtime dependencies.
+- Required generated `AGENTS.md`, `CLAUDE.md`, or Hermes profile instructions to
+  block domain work until deterministic readiness checks pass. While blocked,
+  an agent may only guide setup and run safe diagnostics.
+- Added acceptance scenarios for missing configuration, invalid credentials,
+  wrong account scope, insufficient permissions, successful readiness, lost
+  connectivity, and secret leakage.
+
+## 2.2.0 — 2026-09-12
+
+- Added existing-skill discovery across installed inventories, platform sources,
+  public catalogs, and repositories before a create-new decision.
+- Added a structured reuse record with source, pinned revision, license,
+  coverage, gaps, dependencies, risks, and one decision per skill component.
+- Added machine-readable contracts for every component and kind-specific fields
+  for workflows, tools, skills, subagents, persistent agents, orchestrators,
+  storage, and interfaces.
+- Upgraded implementation kits to schema 3 and made the packager reject missing
+  contracts, tool operations represented as collections, incomplete skill
+  definitions, and absent reuse decisions.
+- Reorganized both skill entrypoints and README editions around routes, the work
+  map, decision flow, and concrete handoff results.
+- Updated Codex interface metadata and default prompts in both language editions
+  to cover design, audit, reusable-skill discovery, and implementation handoff.
+- Added the Claude Code plugin display name and bilingual command argument hints;
+  documented how Claude maps plugin and skill metadata without inventing an
+  unsupported `default_prompt` field.
+- Added a progressively disclosed agent-building source map to both editions.
+  It covers Anthropic's architecture, skill, context, tool, continuity, eval,
+  and multi-agent materials plus Karpathy's `autoresearch` as a bounded applied
+  example and the Ouroboros technical report as a reviewed self-evolution case,
+  without treating external material as user instructions.
+
 ## 2.1.1 — 2026-09-12
 
 - Added one transition map for all seven interview stages, including completion

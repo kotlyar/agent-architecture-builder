@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "search_status": "completed",
+  "sources_checked": [
+    {"kind": "installed", "location": "Замените на путь или средство", "status": "checked"},
+    {"kind": "platform", "location": "Замените на среду", "status": "unavailable"},
+    {"kind": "public-catalog", "location": "https://skills.sh", "status": "checked"},
+    {"kind": "repository", "location": "Замените на источник", "status": "checked"}
+  ],
+  "queries": ["замените на запрос", "замените на синоним"],
+  "candidates": [],
+  "decisions": [
+    {
+      "component_slug": "example-skill",
+      "decision": "create-new",
+      "candidate_id": null,
+      "rationale": "Замените на основание решения"
+    }
+  ]
+}

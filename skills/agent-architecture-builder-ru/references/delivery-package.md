@@ -16,7 +16,8 @@
 ├── requirements/
 │   ├── goal.md
 │   ├── work-map.md
-│   └── constraints.md
+│   ├── constraints.md
+│   └── startup-readiness.json
 ├── architecture/
 │   ├── platform-neutral.md
 │   ├── system.md
@@ -27,7 +28,10 @@
 │   └── <платформа>/README.md
 ├── blueprint/
 │   ├── project-tree.md
-│   └── components/<компонент>.md
+│   ├── components/<компонент>.md
+│   └── contracts/<компонент>.json
+├── reuse/
+│   └── skills.json
 ├── acceptance/
 │   ├── criteria.md
 │   └── scenarios.md
@@ -39,11 +43,11 @@
 Адаптер объясняет, как выразить эти решения в выбранной среде, и не вправе
 скрыто добавлять, удалять, объединять или разделять компоненты.
 
-## Манифест версии 2
+## Манифест версии 4
 
 ```json
 {
-  "schema_version": 2,
+  "schema_version": 4,
   "system_slug": "example-agent-system",
   "status": "ready_for_implementation",
   "target_platforms": [
@@ -54,12 +58,15 @@
   ],
   "entrypoint": "START-HERE.md",
   "implementation_instruction": "IMPLEMENTATION.md",
+  "skill_reuse": "reuse/skills.json",
+  "startup_readiness": "requirements/startup-readiness.json",
   "critical_unknowns": [],
   "components": [
     {
       "slug": "example-worker",
       "kind": "persistent-agent",
-      "specification": "blueprint/components/example-worker.md"
+      "specification": "blueprint/components/example-worker.md",
+      "contract": "blueprint/contracts/example-worker.json"
     }
   ],
   "expected_results": [
@@ -83,7 +90,8 @@
 - `IMPLEMENTER-RULES.md` — короткие независимые от платформы правила. Постоянные
   инструкции конкретной среды находятся в адаптерах.
 - `requirements/` — желаемый результат, признаки успеха, рабочие случаи,
-  исходные данные, ограничения и критические неизвестные.
+  исходные данные, ограничения, критические неизвестные и договор готовности к
+  запуску без значений секретов.
 - `architecture/platform-neutral.md` — компоненты и связи без названий файлов и
   терминов конкретного продукта.
 - `architecture/decisions.md` — таблица решений, основания, отвергнутые варианты
@@ -95,6 +103,10 @@
 - `platforms/<платформа>/README.md` — точное соответствие файлов, конфигурация,
   установка, запуск и проверки выбранной среды.
 - `blueprint/components/` — одна спецификация для каждого компонента манифеста.
+- `blueprint/contracts/` — один проверяемый JSON-контракт для каждого компонента
+  по схеме из `component-contracts.md`.
+- `reuse/skills.json` — источники поиска, кандидаты, пробелы и итоговое решение
+  для каждого компонента вида `skill`.
 - `acceptance/` — наблюдаемые критерии и сквозные сценарии.
 - `unresolved.md` — некритичные неизвестные, владелец, срок, запасной вариант и
   событие пересмотра. Критические неизвестные также находятся в манифесте и
@@ -114,19 +126,76 @@
 - `R6 Платформа`: выбрана хотя бы одна среда и создан полный адаптер.
 - `R7 Приёмка`: проверяемы обычное поведение, сбои, восстановление и полномочия.
 - `R8 Передача`: агент может реализовать систему только по комплекту.
+- `R9 Повторное использование и контракты`: каждый навык найден, выбран или
+  обоснованно создаётся заново; каждый компонент описан как одна реализуемая
+  единица в отдельном проверяемом контракте.
+- `R10 Запуск`: перечислены все обязательные подключения, данные, параметры,
+  безопасные ссылки на секреты, минимальные права, владельцы настройки и
+  фактические проверки; постоянные инструкции среды блокируют предметную работу
+  до успешной проверки.
 
 Неизвестное означает, что условие не пройдено. Не упаковывай черновик ради вида
 готовности.
 
+## Запись поиска навыков
+
+`reuse/skills.json` использует следующую основу:
+
+```json
+{
+  "schema_version": 1,
+  "search_status": "completed",
+  "sources_checked": [
+    {"kind": "installed", "location": "путь или средство", "status": "checked"},
+    {"kind": "platform", "location": "название", "status": "unavailable"},
+    {"kind": "public-catalog", "location": "https://skills.sh", "status": "checked"},
+    {"kind": "repository", "location": "GitHub или официальный источник", "status": "checked"}
+  ],
+  "queries": ["основной термин", "синоним", "конкретная операция"],
+  "candidates": [
+    {
+      "id": "candidate-1",
+      "name": "example-skill",
+      "source": "https://example.invalid/repository",
+      "revision": "версия, тег или хэш",
+      "license": "MIT",
+      "target_component": "example-skill",
+      "coverage": ["покрытая работа"],
+      "gaps": ["непокрытая работа"],
+      "dependencies": [],
+      "risks": [],
+      "decision": "adapt"
+    }
+  ],
+  "decisions": [
+    {
+      "component_slug": "example-skill",
+      "decision": "adapt",
+      "candidate_id": "candidate-1",
+      "rationale": "Почему это минимальное достаточное решение"
+    }
+  ]
+}
+```
+
+Допустимые состояния источника: `checked` и `unavailable`. Допустимые решения:
+`reuse`, `configure`, `adapt`, `fork`, `reject`, `create-new`. Для каждого
+компонента вида `skill` требуется решение. `candidate_id` может быть `null`
+только при `create-new`.
+
+Если компонентов вида `skill` нет, используй `search_status: "not-required"` и
+оставь источники, запросы, кандидатов и решения пустыми.
+
 ## Упаковка
 
-Скопируй шаблоны из `assets/`, замени все примеры, установи `schema_version: 2`
+Скопируй шаблоны из `assets/`, замени все примеры, установи `schema_version: 4`
 и оставь `critical_unknowns` пустым только при наличии оснований. Запусти:
 
 ```bash
 python scripts/package_delivery.py <каталог-комплекта>
 ```
 
-Упаковщик проверяет обязательные файлы, спецификации компонентов, адаптеры
-платформ, секреты, символические ссылки и готовность, после чего создаёт архив с
-контрольными суммами вне исходного каталога.
+Упаковщик проверяет обязательные файлы, отдельные контракты компонентов, решения
+по повторному использованию, договор запуска, соответствие зависимостей,
+адаптеры платформ, секреты, символические ссылки и готовность, после чего создаёт
+архив с контрольными суммами вне исходного каталога.
