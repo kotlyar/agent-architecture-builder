@@ -116,8 +116,8 @@ def validate_plugin_manifests() -> None:
     for label, manifest in (("Codex", codex), ("Claude", claude)):
         if manifest.get("name") != "agent-architecture-builder":
             fail(f"{label} plugin has an unexpected name")
-        if manifest.get("version") != "2.0.0":
-            fail(f"{label} plugin must use version 2.0.0")
+        if manifest.get("version") != "2.1.0":
+            fail(f"{label} plugin must use version 2.1.0")
     plugins = marketplace.get("plugins")
     if not isinstance(plugins, list) or len(plugins) != 1:
         fail("Claude marketplace must contain exactly one plugin")

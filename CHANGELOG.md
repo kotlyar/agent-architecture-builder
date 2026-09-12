@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.0 — 2026-09-12
+
+- Added a visible seven-stage progress indicator before every primary interview
+  question in both the English and Russian editions.
+- Added completed, current, and next stage labels so the user can understand
+  where the interview is and what comes after it.
+- Defined semantic progress rules: stages advance when a discovery outcome is
+  complete, not after every message, and the skill does not claim a percentage
+  or an exact number of remaining questions.
+- Documented the progress format and all seven stages in both README editions.
+
 ## 2.0.0 — 2026-09-10
 
 - Renamed the English and Russian skills to `agent-architecture-builder` and

@@ -57,6 +57,26 @@ primary question at a time, beginning with the desired change and a concrete
 work episode. When a broad question is difficult, it offers optional examples
 adapted to the user's own words and domain.
 
+The interview shows visible progress before every primary question:
+
+Creating an agent · stage 2 of 7
+
+```text
+[✓ ● ○ ○ ○ ○ ○]
+```
+
+```text
+✓ Completed: goal and success
+● Current: real work
+○ Next: work inventory
+```
+
+The seven stages are goal and success, real work, work inventory, autonomy and
+control, constraints and environment, architecture, and implementation kit.
+Progress follows completed meaning-level stages rather than message count. The
+skill does not show a misleading percentage or promise an exact number of
+questions.
+
 The interview also asks:
 
 - how work starts and what a complete result looks like;

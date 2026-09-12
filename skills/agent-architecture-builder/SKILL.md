@@ -4,7 +4,7 @@ description: Designs or reviews autonomous-agent and multi-agent architectures t
 license: MIT
 metadata:
   author: kotlyar
-  version: "2.0.0"
+  version: "2.1.0"
   source: https://github.com/kotlyar/agent-architecture-builder
 ---
 # Agent Architecture Builder
@@ -52,6 +52,8 @@ an overall impression, a proxy-signal score, or assumptions based on a job title
    not ask the user to repeat known information.
 2. Ask one primary interview question per turn. Start with why the system is
    needed, why now, and what should change, not with architecture terminology.
+   Before every primary question, show the seven-stage progress indicator
+   defined in `discovery-interview.md`.
 3. Use everyday language. Translate answers into technical concepts yourself.
 4. When an open question requires recalling many kinds of work, offer optional
    answer examples adapted from the user's words. The user may select several,

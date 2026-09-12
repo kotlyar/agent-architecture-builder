@@ -19,6 +19,41 @@ user to design the system for you.
 Before sending a question, check that a person unfamiliar with agent terminology
 can answer it with an example from their work. If not, rewrite it.
 
+## Visible interview progress
+
+Before every primary question, show the current stage in the same format. Keep
+the title as ordinary text, then place the indicator and three status lines in
+separate blocks:
+
+Creating an agent · stage 2 of 7
+
+```text
+[✓ ● ○ ○ ○ ○ ○]
+```
+
+```text
+✓ Completed: goal and success
+● Current: real work
+○ Next: work inventory
+```
+
+Use seven user-facing stages:
+
+1. `Goal and success` — internal stages 0–2.
+2. `Real work` — internal stage 3.
+3. `Work inventory` — internal stage 4.
+4. `Autonomy and control` — internal stages 5–7.
+5. `Constraints and environment` — internal stage 8 and gates `D1–D4`.
+6. `Architecture` — function classification, agent boundaries, and orchestration.
+7. `Implementation kit` — adapters, acceptance, instructions, and archive.
+
+Count completed meaning-level stages, not messages or questions. Do not show a
+completion percentage or promise an exact number of remaining questions. If one
+answer resolves several stages, advance accordingly. When returning to an older
+gap, retain the current stage number and name the clarification in `Current`. In
+the final stage, make `Next` name the finished deliverable rather than an eighth
+stage.
+
 ## Stage 0. Opening
 
 Explain the process briefly:
